@@ -19,6 +19,9 @@
           :$i (do (assert (= 1 (count (rest statement))) (str "invalid value: " (rest statement)))
                   (let [value (second statement)]
                     {:sql :$i :params (list value)}))
+          :? (do (assert (= 1 (count (rest statement))) (str "invalid value: " (rest statement)))
+               (let [value (second statement)]
+                 {:sql "?" :params (list value)}))
           (let [substatements (map parse statement)]
             {:sql (concat (list "(") (interpose " " (map :sql substatements)) (list ")"))
              :params (apply concat (map :params substatements))})))
